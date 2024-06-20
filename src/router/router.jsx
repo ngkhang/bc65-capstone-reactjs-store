@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DefaultTemplate, UserAuthTemplate } from '../template';
 import { Home, ErrorPage } from '../pages';
+import Auth from '../pages/Auth/Auth';
 
 const router = createBrowserRouter([
   {
@@ -46,16 +47,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        // index: true,
-        // element: <Navigate to="/auth/signin" />,
+        index: true,
+        element: <Navigate to="/auth/signin" />,
       },
       {
-        path: 'signin',
-        // element: </>,
-      },
-      {
-        path: 'signup',
-        // element: </>,
+        path: ':action',
+        element: <Auth />,
       },
     ],
   },
