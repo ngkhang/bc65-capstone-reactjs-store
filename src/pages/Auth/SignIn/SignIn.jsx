@@ -34,7 +34,7 @@ const SignIn = () => {
         </Button>
       </div>
       <p className="text-end">
-        <span>Don&apos;t have an account? </span>
+        <span>Don't have an account? </span>
         <Link to="/auth/signup">Sign Up</Link>
       </p>
     </Form>

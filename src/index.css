@@ -17,3 +17,7 @@
 ::after {
   --tw-content: '';
 }
+
+.mainSize {
+  @apply w-[90%] lg:w-[80%];
+}

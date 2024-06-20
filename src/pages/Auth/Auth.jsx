@@ -31,6 +31,7 @@ const Auth = () => {
       }`}
       title={
         <h3 className="text-center uppercase text-lg py-3 sm:text-xl lg:text-2xl">
+          {/* // BUG: title not found when url incorect */}
           {Items[keyComponent].title}
         </h3>
       }

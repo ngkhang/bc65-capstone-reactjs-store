@@ -7,7 +7,7 @@ export default {
   plugins: [],
   // 👇 Resolve conflic between Antd and TaildwindCSS
   corePlugins: {
-    preflight: true,
+    preflight: false,
   },
   important: '#root',
 };
