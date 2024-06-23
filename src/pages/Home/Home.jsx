@@ -17,7 +17,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className="py-6 md:py-10">
       <h1 className="text-2xl md:text-4xl text-center mb-4 md:mb-8">
         Our Products
       </h1>

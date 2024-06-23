@@ -9,7 +9,7 @@ const DefaultTemplate = () => {
   return (
     <Layout className="flex flex-col min-h-screen">
       <Header />
-      <Layout className="flex-1 flex items-center py-6 md:py-10 bg-slate-50">
+      <Layout className="flex-1 flex items-center bg-slate-50">
         <Content className="mainSize">
           <Outlet />
           <FloatButton.BackTop icon={<ArrowUpOutlined />} />

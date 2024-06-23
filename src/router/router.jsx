@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DefaultTemplate, UserAuthTemplate } from '../template';
-import { Home, ErrorPage } from '../pages';
+import { Home, Products, ErrorPage } from '../pages';
 import Auth from '../pages/Auth/Auth';
 
 const router = createBrowserRouter([
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            // element: < />,
+            element: <Products />,
           },
           {
             path: ':slugProduct',
