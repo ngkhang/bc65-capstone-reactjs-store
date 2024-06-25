@@ -37,7 +37,7 @@ const CardItem = ({ prod, typeDisplay = 'grid' }) => {
           <Col span={configRowCol.col[0]}>
             <Link
               to={`/products/${prod.alias}/${prod.id}`}
-              className="inline-block"
+              className="inline-block w-full"
             >
               <img
                 alt={prod.alias}

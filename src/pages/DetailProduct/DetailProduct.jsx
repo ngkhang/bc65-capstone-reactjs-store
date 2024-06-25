@@ -24,6 +24,7 @@ import {
   RetweetOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons';
+import './DetailProduct.css';
 
 // FEATURE: Click relate product will scroll top page
 
@@ -75,39 +76,55 @@ const DetailProduct = () => {
   }, [productId, productSlug, navigate]);
 
   return (
-    <div className="py-8">
+    <div className="px-8 md:px-0 py-10">
       {product && (
         <>
-          <Row align="top" justify="space-between" className="mb-8">
-            <Col span={7} className="border border-gray-400 rounded-md">
+          <Row align="top" justify="space-between" className="mb-5 md:mb-8">
+            <Col
+              span={24}
+              md={8}
+              className="flex justify-center items-center border border-gray-400 rounded-md mb-4 md:mb-0"
+            >
               <img
                 src={product.image}
                 alt={product.alias}
-                className=" w-full"
+                className="w-1/2 md:w-full"
               />
             </Col>
-            <Col span={16}>
-              <Flex className="mb-2">
-                <span className="px-3 py-2 mb-2 rounded text-white text-md">
+            <Col span={24} md={14}>
+              <Flex className="row-detail justify-between mb-2">
+                <span className="px-3 py-2 rounded bg-red-600 text-white text-md">
                   -35%
                 </span>
+                <Flex gap={5}>
+                  <Button
+                    size="middle"
+                    className="bg-transparent shadow-none cursor-default"
+                  >
+                    <HeartOutlined />
+                  </Button>
+                  <Button
+                    size="middle"
+                    className="bg-transparent shadow-none cursor-default"
+                  >
+                    <ShareAltOutlined />
+                  </Button>
+                </Flex>
               </Flex>
-              <h2 className="uppercase text-3xl mb-2">{product.name}</h2>
-              <Row gutter={12} className="mb-4 items-center">
-                <Col>
-                  <Rate
-                    disabled
-                    defaultValue={Math.floor(Math.random() * 3) + 3}
-                    allowHalf={true}
-                    className="text-sm"
-                  />
-                </Col>
-                <Col>
-                  <span className="text-sm">(150 Reviews)</span>
-                </Col>
-              </Row>
+              <h2 className="uppercase text-xl md:text-3xl mb-2">
+                {product.name}
+              </h2>
+              <Flex gap={10} align="center" className="row-detail">
+                <Rate
+                  disabled
+                  defaultValue={Math.floor(Math.random() * 3) + 3}
+                  allowHalf={true}
+                  className="text-sm"
+                />
+                <span className="text-sm">(150 Reviews)</span>
+              </Flex>
               <p className="text-3xl mb-4">${product.price}</p>
-              <Flex gap="small" align="center" className="mb-3">
+              <Flex gap="small" className="row-detail">
                 <span>Category</span>
                 <div>
                   {product.categories?.map((item) => {
@@ -123,11 +140,7 @@ const DetailProduct = () => {
                   })}
                 </div>
               </Flex>
-              <Flex gap="small" align="center" className="mb-3">
-                <span>Availability</span>
-                <spam>{product.quantity}</spam>
-              </Flex>
-              <Flex gap="small" align="center" className="mb-4">
+              <Flex gap="small" className="row-detail">
                 <span>Select a size</span>
                 <Select
                   size="large"
@@ -143,8 +156,8 @@ const DetailProduct = () => {
                 />
               </Flex>
 
-              <Flex align="center">
-                <Space.Compact className="mr-14" size="large">
+              <Flex className="row-detail">
+                <Space.Compact className="mr-5" size="large">
                   <Button
                     onClick={(e) =>
                       handleChangeCountProduct(e, 'down', product.quantity)
@@ -153,7 +166,7 @@ const DetailProduct = () => {
                     className="rounded-s-md flex-grow"
                   />
                   <Input
-                    className="text-center w-16"
+                    className="text-center w-14"
                     value={quantityProduct}
                     onInput={(e) =>
                       handleChangeCountProduct(e, 'default', product.quantity)
@@ -167,25 +180,25 @@ const DetailProduct = () => {
                     className="rounded-e-md flex-grow"
                   />
                 </Space.Compact>
-                <Flex gap={5} align="center">
-                  <Button size="large" className="px-10">
-                    Add to Cart
-                  </Button>
-                  <Button size="large" className="cursor-default">
-                    <HeartOutlined />
-                  </Button>
-                  <Button size="large" className="cursor-default">
-                    <ShareAltOutlined />
-                  </Button>
-                </Flex>
+                <p className="mb-0">{product.quantity} Available</p>
+              </Flex>
+
+              <Flex gap={10} className="row-detail mb-0">
+                <Button
+                  type="primary"
+                  size="large"
+                  className="w-full lg:w-0 lg:px-28"
+                >
+                  Add to Cart
+                </Button>
               </Flex>
             </Col>
           </Row>
 
           <Row className="mb-5" align="middle" justify="space-between">
-            <Col span={13}>
+            <Col span={24} md={13} className="mb-3 md:mb-0">
               <Tabs
-                className="px-5"
+                className="md:px-5"
                 defaultActiveKey="1"
                 items={[
                   {
@@ -193,19 +206,24 @@ const DetailProduct = () => {
                     label: 'Product Description',
                     children: <p>{product.description}</p>,
                   },
-
                   {
                     key: '2',
                     label: 'Review 0',
                     children: 'Review',
                     disabled: true,
                   },
+                  {
+                    key: '3',
+                    label: 'Video',
+                    children: 'Video',
+                    disabled: true,
+                  },
                 ]}
               />
             </Col>
-            <Col span={10}>
+            <Col span={24} md={10}>
               <List
-                className="border-2 "
+                className="border-2"
                 bordered
                 itemLayout="horizontal"
                 dataSource={[
@@ -236,12 +254,12 @@ const DetailProduct = () => {
 
           <Row>
             <Divider orientation="left" orientationMargin="0" className="mb-5">
-              <h2 className="mb-0">You Might Also Like</h2>
+              <h2 className="mb-0 text-xl md:text-2xl">You Might Also Like</h2>
             </Divider>
-            <Row gutter={[24, 24]}>
+            <Row gutter={[24, 24]} className="px-10 sm:px-0">
               {product.relatedProducts?.map((prod) => {
                 return (
-                  <Col span={24} xl={6} key={prod.id}>
+                  <Col span={24} sm={12} lg={6} key={prod.id}>
                     <CardItem prod={prod} />
                   </Col>
                 );

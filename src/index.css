@@ -20,7 +20,7 @@
 }
 
 .mainSize {
-  @apply w-[90%] lg:w-[80%];
+  @apply w-[90%] md:w-[80%] lg:w-[60%];
 }
 
 * {
