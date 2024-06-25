@@ -7,6 +7,8 @@ import API from '../../utils/api';
 import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 
+// FEATURE: Load more products by button
+
 const modelDisplay = {
   grid: {
     type: 'grid',
@@ -132,7 +134,6 @@ const Products = () => {
           );
         })}
       </Row>
-      <Button type="primary"> Get more product</Button>
     </div>
   );
 };

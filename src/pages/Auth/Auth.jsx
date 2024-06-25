@@ -17,8 +17,7 @@ const Items = {
 
 const Auth = () => {
   const [keyComponent, setKeyComponent] = useState('signin');
-  const { param } = useRoute();
-  const { action } = param;
+  const { action } = useRoute('action');
 
   useEffect(() => {
     setKeyComponent(action);

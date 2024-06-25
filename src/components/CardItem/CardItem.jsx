@@ -35,10 +35,13 @@ const CardItem = ({ prod, typeDisplay = 'grid' }) => {
       >
         <Row gutter={[24, 24]} className={`${configRowCol.row}`}>
           <Col span={configRowCol.col[0]}>
-            <Link to={`products/${prod.alias}`} className="inline-block">
+            <Link
+              to={`/products/${prod.alias}/${prod.id}`}
+              className="inline-block"
+            >
               <img
                 alt={prod.alias}
-                src={prod.imgLink}
+                src={prod.image}
                 onError={handleError}
                 className="w-full"
               />
@@ -47,7 +50,7 @@ const CardItem = ({ prod, typeDisplay = 'grid' }) => {
 
           <Col span={configRowCol.col[1]}>
             <Link
-              to={`products/${prod.alias}`}
+              to={`/products/${prod.alias}/${prod.id}`}
               className="inline-block text-inherit"
             >
               <h4 className="text-lg lg:text-xl capitalize mb-2">
