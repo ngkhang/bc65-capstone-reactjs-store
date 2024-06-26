@@ -1,10 +1,10 @@
+/* eslint-disable no-useless-escape */
 import { Form, Input, Select } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 const configForm = {
   layout: 'vertical',
-  // name: 'signUpForm',
   size: 'large',
   validateMessages: {
     required: 'Please input your ${name}',
@@ -12,11 +12,6 @@ const configForm = {
       email: '${name} is not a valid email!',
     },
   },
-  // initialValues: {
-  //   prefix: '86',
-  //   email: '',
-  //   password: '',
-  // },
 };
 
 const configFieldsSignUp = [
@@ -51,8 +46,13 @@ const configFieldsSignUp = [
       label: 'Name',
       rules: [
         {
-          // required: true,
-          // type: '',
+          required: true,
+        },
+        {
+          type: 'string',
+          message: 'Name must be a string, with at least 2 words',
+          pattern:
+            /[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\ /,
         },
       ],
     },
@@ -74,7 +74,7 @@ const configFieldsSignUp = [
           required: true,
         },
         {
-          min: 6,
+          min: 4,
           max: 12,
           message: 'Password must be between 6 and 12 characters',
         },
@@ -125,7 +125,6 @@ const configFieldsSignUp = [
       label: 'Phone Number',
       rules: [
         {
-          required: true,
           message: 'Please input your phone number!',
           pattern: /[0-9]{9}/,
         },
@@ -150,7 +149,6 @@ const configFieldsSignUp = [
       />
     ),
   },
-
   {
     key: 6,
     configCol: {
@@ -161,12 +159,7 @@ const configFieldsSignUp = [
     configFormItem: {
       name: 'gender',
       label: 'Gender',
-      rules: [
-        // {
-        //   required: true,
-        //   message: 'Please select gender!',
-        // },
-      ],
+      rules: [],
     },
     children: (
       <Select placeholder="Select your gender">

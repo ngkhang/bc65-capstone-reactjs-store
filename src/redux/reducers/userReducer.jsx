@@ -76,4 +76,24 @@ export const profileActionAsync = (values) => {
   };
 };
 
+export const signUpActionAsync = (values) => {
+  return async (dispatch) => {
+    try {
+      const res = await httpClient.post(API.USER.SIGNUP, values);
+      const login = {
+        email: res.data.content.email,
+        password: res.data.content.password,
+      };
+      const actionSignInAsync = signInActionAsync(login);
+      await dispatch(actionSignInAsync);
+      return {
+        ...res.data,
+      };
+    } catch (error) {
+      return {
+        ...error.response.data,
+      };
+    }
+  };
+};
 export default userReducer.reducer;
