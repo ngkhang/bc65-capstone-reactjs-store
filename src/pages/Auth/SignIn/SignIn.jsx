@@ -1,13 +1,23 @@
-import { Button, Form } from 'antd';
 import { Link } from 'react-router-dom';
-import configForm from '../configForm';
-import { fieldsSignIn } from '../configFields';
+import { Button, Form } from 'antd';
+import { useRedux, useRoute } from '../../../hooks';
+import { signInActionAsync } from '../../../redux/reducers/userReducer';
+import { configForm, configFieldsSignIn } from '../configForm';
+
+// FEATURE: Toast message when sign in success/failed
 
 const SignIn = () => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    form.resetFields();
+  const { navigate } = useRoute();
+  const { dispatch } = useRedux();
+
+  const onFinish = async (values) => {
+    const actionThunk = signInActionAsync(values);
+    const { statusCode, message } = await dispatch(actionThunk);
+    if (statusCode === 200) {
+      form.resetFields();
+      navigate('/');
+    } else console.log('Error: ', message);
   };
 
   return (
@@ -21,7 +31,7 @@ const SignIn = () => {
       }}
       onFinish={onFinish}
     >
-      {fieldsSignIn.map((field) => {
+      {configFieldsSignIn.map((field) => {
         return (
           <Form.Item key={field.key} {...field.configFormItem}>
             {field.children}
