@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card } from 'antd';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
-import useRoute from '../../hooks/useRoute';
+import { useRoute } from '../../hooks';
 
 const Items = {
   signin: {
@@ -17,11 +17,11 @@ const Items = {
 
 const Auth = () => {
   const [keyComponent, setKeyComponent] = useState('signin');
-  const { action } = useRoute('action');
+  const { action, navigate } = useRoute(['action']);
 
   useEffect(() => {
-    setKeyComponent(action);
-  }, [action]);
+    Items[action] ? setKeyComponent(action) : navigate('*');
+  }, [action, navigate]);
 
   return (
     <Card
@@ -30,7 +30,6 @@ const Auth = () => {
       }`}
       title={
         <h3 className="text-center uppercase text-lg py-3 sm:text-xl lg:text-2xl">
-          {/* // BUG: title not found when url incorect */}
           {Items[keyComponent].title}
         </h3>
       }

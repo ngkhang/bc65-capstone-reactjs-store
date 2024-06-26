@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import useRoute from '../../hooks/useRoute';
+import { httpClient } from '../../utils/config';
+import API from '../../utils/api';
+import { CardItem } from '../../components';
 import {
   Button,
   Col,
@@ -11,11 +16,6 @@ import {
   Space,
   Tabs,
 } from 'antd';
-import useRoute from '../../hooks/useRoute';
-import { useEffect, useState } from 'react';
-import { httpClient } from '../../utils/config';
-import API from '../../utils/api';
-import { CardItem } from '../../components';
 import {
   DeliveredProcedureOutlined,
   HeartOutlined,
@@ -61,11 +61,11 @@ const DetailProduct = () => {
   useEffect(() => {
     const getDetailProduct = async (productId) => {
       try {
-        const data = await httpClient.get(API.PRODUCT.GET_BY_ID(productId));
-        if (data.alias !== productSlug) navigate('*');
+        const res = await httpClient.get(API.PRODUCT.GET_BY_ID(productId));
+        if (res.data.content.alias !== productSlug) navigate('*');
         else {
-          setSize(data.size[0]);
-          setProduct(data);
+          setSize(res.data.content.size[0]);
+          setProduct(res.data.content);
         }
       } catch (error) {
         navigate('not-found');

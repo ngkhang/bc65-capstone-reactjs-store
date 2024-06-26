@@ -1,6 +1,14 @@
-import { LoginOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  signOutAction,
+  profileActionAsync,
+} from '../../redux/reducers/userReducer';
+import useRedux from '../../hooks/useRedux';
+import { getDataTextStorage } from '../../utils/helpers';
+import { GLOBAL_STATES, REDUCERS, SERVICES } from '../../utils/constant';
+import { Layout, Menu } from 'antd';
+import { LoginOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 
 const MenuItems = [
@@ -20,41 +28,61 @@ const MenuItems = [
     key: 4,
     label: <Link to="/contact">Contact</Link>,
   },
-  {
-    key: 5,
-    label: (
-      <Link to="/auth/signin">
-        <LoginOutlined /> Sign In
-      </Link>
-    ),
-    title: 'Sign In',
-  },
-  {
-    key: 6,
-    label: 'abc',
-    children: [
-      {
-        key: '61',
-        label: (
-          <Link to="/account">
-            <UserOutlined /> My Profile
-          </Link>
-        ),
-      },
-      {
-        key: '62',
-        label: (
-          <Link to="/">
-            <LogoutOutlined /> Logout
-          </Link>
-        ),
-      },
-    ],
-    title: 'My Profile',
-  },
 ];
 
 const HeaderAntd = () => {
+  const { userProfile, dispatch } = useRedux(
+    REDUCERS.USER_REDUCER,
+    GLOBAL_STATES.USER_PROFILE,
+  );
+  const handleSignOut = () => {
+    const actionCreator = signOutAction();
+    dispatch(actionCreator);
+  };
+
+  const renderMenuAuth = () => {
+    return userProfile
+      ? {
+          key: 5,
+          label: userProfile.name,
+          children: [
+            {
+              key: '51',
+              label: (
+                <Link to="/account">
+                  <UserOutlined /> My Profile
+                </Link>
+              ),
+            },
+            {
+              key: '52',
+              label: (
+                <Link onClick={handleSignOut}>
+                  <LogoutOutlined /> Sign Out
+                </Link>
+              ),
+            },
+          ],
+        }
+      : {
+          key: 5,
+          label: (
+            <Link to="/auth/signin">
+              <LoginOutlined /> Sign In
+            </Link>
+          ),
+          title: 'Sign In',
+        };
+  };
+
+  useEffect(() => {
+    let accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
+    if (accessToken) {
+      const actionThunk = profileActionAsync(accessToken);
+      dispatch(actionThunk);
+    }
+  }, [dispatch]);
+
   return (
     <Header className="px-0 flex justify-center bg-white">
       <div className="mainSize flex items-center justify-between">
@@ -68,7 +96,7 @@ const HeaderAntd = () => {
           mode="horizontal"
           defaultSelectedKeys={['1']}
           className="justify-end flex-1 min-w-0"
-          items={MenuItems}
+          items={[...MenuItems, renderMenuAuth()]}
         />
       </div>
     </Header>

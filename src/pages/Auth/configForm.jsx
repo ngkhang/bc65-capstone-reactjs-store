@@ -2,7 +2,24 @@ import { Form, Input, Select } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
-const fieldsSignUp = [
+const configForm = {
+  layout: 'vertical',
+  // name: 'signUpForm',
+  size: 'large',
+  validateMessages: {
+    required: 'Please input your ${name}',
+    types: {
+      email: '${name} is not a valid email!',
+    },
+  },
+  // initialValues: {
+  //   prefix: '86',
+  //   email: '',
+  //   password: '',
+  // },
+};
+
+const configFieldsSignUp = [
   {
     key: 1,
     configCol: {
@@ -165,7 +182,7 @@ const fieldsSignUp = [
   },
 ];
 
-const fieldsSignIn = [
+const configFieldsSignIn = [
   {
     key: 1,
     configFormItem: {
@@ -188,9 +205,9 @@ const fieldsSignIn = [
           required: true,
         },
         {
-          min: 6,
+          min: 4,
           max: 12,
-          message: 'Password must be between 6 and 12 characters',
+          message: 'Password must be between 4 and 12 characters',
         },
       ],
     },
@@ -200,4 +217,4 @@ const fieldsSignIn = [
   },
 ];
 
-export { fieldsSignUp, fieldsSignIn };
+export { configForm, configFieldsSignUp, configFieldsSignIn };

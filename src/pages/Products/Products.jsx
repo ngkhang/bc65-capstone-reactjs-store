@@ -1,11 +1,10 @@
-import { Button, Col, Divider, Row } from 'antd';
-import BgHeader from '../../assets/bg-02.jpg';
-import { CardItem } from '../../components';
 import { useEffect, useState } from 'react';
 import { httpClient } from '../../utils/config';
 import API from '../../utils/api';
+import { Button, Col, Divider, Row, Select } from 'antd';
 import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
+import { CardItem } from '../../components';
+import BgHeader from '../../assets/bg-02.jpg';
 
 // FEATURE: Load more products by button
 
@@ -44,8 +43,8 @@ const Products = () => {
 
   useEffect(() => {
     const getAllProduct = async () => {
-      const data = await httpClient.get(API.PRODUCT.GET_ALL);
-      setProducts(data);
+      const res = await httpClient.get(API.PRODUCT.GET_ALL);
+      setProducts(res.data.content);
     };
 
     getAllProduct();

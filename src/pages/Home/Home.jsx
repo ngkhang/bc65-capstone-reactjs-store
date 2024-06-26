@@ -6,11 +6,10 @@ import { CardItem } from '../../components';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-
   useEffect(() => {
     const getAllProduct = async () => {
-      const data = await httpClient.get(API.PRODUCT.GET_ALL);
-      setProducts(data);
+      const res = await httpClient.get(API.PRODUCT.GET_ALL);
+      setProducts(res.data.content);
     };
 
     getAllProduct();
@@ -23,13 +22,14 @@ const Home = () => {
       </h1>
 
       <Row gutter={[24, 24]}>
-        {products.map((prod) => {
-          return (
-            <Col key={prod.id} span={12} md={8} lg={6} className="p-0">
-              <CardItem prod={prod} />
-            </Col>
-          );
-        })}
+        {products.length > 0 &&
+          products.map((prod) => {
+            return (
+              <Col key={prod.id} span={12} md={8} lg={6} className="p-0">
+                <CardItem prod={prod} />
+              </Col>
+            );
+          })}
       </Row>
     </div>
   );

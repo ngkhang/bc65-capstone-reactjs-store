@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DefaultTemplate, UserAuthTemplate } from '../template';
-import { Home, Products, ErrorPage, DetailProduct } from '../pages';
-import Auth from '../pages/Auth/Auth';
+import { Home, Products, DetailProduct, Auth, ErrorPage } from '../pages';
 
 const router = createBrowserRouter([
   {
