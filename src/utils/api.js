@@ -1,6 +1,4 @@
 export const DOMAIN = 'https://apistore.cybersoft.edu.vn';
-export const ACCESS_TOKEN = 'accessToken';
-export const USER_LOGIN = 'userLogin';
 
 const PRODUCT_BASE = '/api/Product';
 const USER_BASE = '/api/Users';

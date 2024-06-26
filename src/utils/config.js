@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { DOMAIN, ACCESS_TOKEN } from './api';
+import { DOMAIN } from './api';
 import { getDataTextStorage } from './helpers';
+import { SERVICES } from './constant';
 
 const ERRORS = {
   /**
@@ -39,7 +40,7 @@ export const httpClient = axios.create({
 // Add a request interceptor
 httpClient.interceptors.request.use(
   (config) => {
-    const accessToken = getDataTextStorage(ACCESS_TOKEN);
+    const accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
     if (config.headers) {
       config.headers = {
         ...config.headers,
@@ -55,9 +56,7 @@ httpClient.interceptors.request.use(
 
 // Add a response interceptor
 httpClient.interceptors.response.use(
-  (response) => {
-    return response.data.content;
-  },
+  (response) => response,
   (error) => {
     if (error.response) {
       let { status, statusText } = error.response;
