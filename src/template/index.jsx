@@ -1,4 +1,5 @@
 import DefaultTemplate from './DefaultTemplate/DefaultTemplate';
-import UserAuthTemplate from './UserAuthTemplate/UserAuthTemplate';
+import AuthTemplate from './AuthTemplate/AuthTemplate';
+import UserTemplate from './UserTemplate/UserTemplate';
 
-export { DefaultTemplate, UserAuthTemplate };
+export { DefaultTemplate, AuthTemplate, UserTemplate };

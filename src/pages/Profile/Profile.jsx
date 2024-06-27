@@ -1,5 +1,20 @@
-import { Form, Input, Select } from 'antd';
-import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
+import { GLOBAL_STATES, SERVICES } from '../../utils/constant';
+import { useRedux } from '../../hooks';
+import { getDataJsonStorage, getDataTextStorage } from '../../utils/helpers';
+import { profileActionAsync } from '../../redux/reducers/userReducer';
+import {
+  Avatar,
+  Button,
+  Col,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Select,
+} from 'antd';
+import { MailOutlined, UserOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 const configForm = {
@@ -18,8 +33,8 @@ const configFieldsSignUp = [
     key: 1,
     configCol: {
       span: 24,
-      sm: 12,
-      order: 1,
+      md: 12,
+      lg: 24,
     },
     configFormItem: {
       name: 'email',
@@ -37,8 +52,8 @@ const configFieldsSignUp = [
     key: 2,
     configCol: {
       span: 24,
-      sm: 12,
-      order: 2,
+      md: 12,
+      lg: 24,
     },
     configFormItem: {
       name: 'name',
@@ -58,66 +73,11 @@ const configFieldsSignUp = [
     children: <Input prefix={<UserOutlined />} placeholder="Name" />,
   },
   {
-    key: 3,
-    configCol: {
-      span: 24,
-      sm: 12,
-      order: 3,
-    },
-    configFormItem: {
-      name: 'password',
-      label: 'Password',
-      hasFeedback: true,
-      rules: [
-        {
-          required: true,
-        },
-        {
-          min: 4,
-          max: 12,
-          message: 'Password must be between 6 and 12 characters',
-        },
-      ],
-    },
-    children: <Input.Password prefix={<LockOutlined />} placeholder="******" />,
-  },
-  {
-    key: 4,
-    configCol: {
-      span: 24,
-      sm: 12,
-      order: 5,
-    },
-    configFormItem: {
-      name: 'confirm',
-      label: 'Confirm Password',
-      dependencies: ['password'],
-      hasFeedback: true,
-      rules: [
-        {
-          required: true,
-          message: 'Please confirm your password!',
-        },
-        ({ getFieldValue }) => ({
-          validator(_, value) {
-            if (!value || getFieldValue('password') === value) {
-              return Promise.resolve();
-            }
-            return Promise.reject(
-              new Error('The new password that you entered do not match!'),
-            );
-          },
-        }),
-      ],
-    },
-    children: <Input.Password prefix={<LockOutlined />} placeholder="******" />,
-  },
-  {
     key: 5,
     configCol: {
       span: 24,
-      sm: 12,
-      order: 4,
+      md: 12,
+      lg: 24,
     },
     configFormItem: {
       name: 'phone',
@@ -152,8 +112,8 @@ const configFieldsSignUp = [
     key: 6,
     configCol: {
       span: 24,
-      sm: 12,
-      order: 6,
+      md: 12,
+      lg: 24,
     },
     configFormItem: {
       name: 'gender',
@@ -174,39 +134,73 @@ const configFieldsSignUp = [
   },
 ];
 
-const configFieldsSignIn = [
-  {
-    key: 1,
-    configFormItem: {
-      name: 'email',
-      rules: [
-        {
-          required: true,
-          type: 'email',
-        },
-      ],
-    },
-    children: <Input prefix={<UserOutlined />} placeholder="Email" />,
-  },
-  {
-    key: 2,
-    configFormItem: {
-      name: 'password',
-      rules: [
-        {
-          required: true,
-        },
-        {
-          min: 4,
-          max: 12,
-          message: 'Password must be between 4 and 12 characters',
-        },
-      ],
-    },
-    children: (
-      <Input.Password prefix={<LockOutlined />} placeholder="Password" />
-    ),
-  },
-];
+const Profile = () => {
+  const [form] = Form.useForm();
+  const { dispatch } = useRedux();
+  const accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
+  const userProfile = getDataJsonStorage(GLOBAL_STATES.USER_PROFILE);
 
-export { configForm, configFieldsSignUp, configFieldsSignIn };
+  const onFinish = (newValues) => {
+    console.log(newValues);
+  };
+
+  useEffect(() => {
+    const getProfile = (accessToken) => {
+      const actionThunk = profileActionAsync(accessToken);
+      dispatch(actionThunk);
+    };
+    getProfile(accessToken);
+  }, [accessToken, dispatch]);
+
+  return (
+    <div>
+      <div>
+        <h3>My Profile</h3>
+        <p>Manage and protect your account</p>
+      </div>
+      <Divider />
+      <Flex gap="1rem" className="items-start justify-between flex-wrap">
+        <div className="w-full order-2 lg:order-1 lg:w-[65%]">
+          <Form
+            form={form}
+            {...configForm}
+            name="signUpForm"
+            initialValues={userProfile}
+            onFinish={onFinish}
+          >
+            <Row gutter={24} className="mb-5">
+              {configFieldsSignUp.map((field) => {
+                return (
+                  <Col key={field.key} {...field.configCol}>
+                    <Form.Item {...field.configFormItem}>
+                      {field.children}
+                    </Form.Item>
+                  </Col>
+                );
+              })}
+            </Row>
+
+            <Flex wrap={true} justify="flex-end">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full md:w-[48%]"
+              >
+                Save
+              </Button>
+            </Flex>
+          </Form>
+        </div>
+        <div className="text-center mb-3 order-1 lg:order-2 w-full lg:w-[30%]">
+          <Avatar
+            className="w-1/2 lg:w-full h-full"
+            src={userProfile.avatar}
+            alt={userProfile.name}
+          />
+        </div>
+      </Flex>
+    </div>
+  );
+};
+
+export default Profile;

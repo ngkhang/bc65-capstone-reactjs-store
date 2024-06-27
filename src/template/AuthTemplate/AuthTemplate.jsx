@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-const UserAuthTemplate = () => {
+const AuthTemplate = () => {
   return (
     <div className="min-h-screen flex justify-center items-center bg-slate-200">
       <Outlet />
@@ -8,4 +8,4 @@ const UserAuthTemplate = () => {
   );
 };
 
-export default UserAuthTemplate;
+export default AuthTemplate;

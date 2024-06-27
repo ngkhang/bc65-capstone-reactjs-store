@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { DefaultTemplate, UserAuthTemplate } from '../template';
+import { DefaultTemplate, AuthTemplate, UserTemplate } from '../template';
 import { Home, Products, DetailProduct, Auth, ErrorPage } from '../pages';
+import Profile from '../pages/Profile/Profile';
 
 const router = createBrowserRouter([
   {
@@ -25,24 +26,22 @@ const router = createBrowserRouter([
           },
         ],
       },
+    ],
+  },
+  {
+    path: 'user',
+    element: <UserTemplate />,
+    errorElement: <ErrorPage />,
+    children: [
       {
-        path: 'account',
-        children: [
-          {
-            path: ':user',
-            // element: </>,
-          },
-          {
-            path: 'profile',
-            // element: </>,
-          },
-        ],
+        path: 'account/profile',
+        element: <Profile />,
       },
     ],
   },
   {
     path: 'auth',
-    element: <UserAuthTemplate />,
+    element: <AuthTemplate />,
     errorElement: <ErrorPage />,
     children: [
       {

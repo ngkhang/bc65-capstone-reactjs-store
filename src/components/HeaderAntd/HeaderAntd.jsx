@@ -7,8 +7,13 @@ import {
 import useRedux from '../../hooks/useRedux';
 import { getDataTextStorage } from '../../utils/helpers';
 import { GLOBAL_STATES, REDUCERS, SERVICES } from '../../utils/constant';
-import { Layout, Menu } from 'antd';
-import { LoginOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { Badge, Layout, Menu } from 'antd';
+import {
+  LoginOutlined,
+  LogoutOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 const { Header } = Layout;
 
 const MenuItems = [
@@ -42,37 +47,54 @@ const HeaderAntd = () => {
 
   const renderMenuAuth = () => {
     return userProfile
-      ? {
-          key: 5,
-          label: userProfile.name,
-          children: [
-            {
-              key: '51',
-              label: (
-                <Link to="/account">
-                  <UserOutlined /> My Profile
-                </Link>
-              ),
-            },
-            {
-              key: '52',
-              label: (
-                <Link onClick={handleSignOut}>
-                  <LogoutOutlined /> Sign Out
-                </Link>
-              ),
-            },
-          ],
-        }
-      : {
-          key: 5,
-          label: (
-            <Link to="/auth/signin">
-              <LoginOutlined /> Sign In
-            </Link>
-          ),
-          title: 'Sign In',
-        };
+      ? [
+          {
+            key: 5,
+            label: userProfile.name,
+            children: [
+              {
+                key: '51',
+                label: (
+                  <Link to="/user/account/profile">
+                    <UserOutlined /> My Profile
+                  </Link>
+                ),
+              },
+              {
+                key: '52',
+                label: (
+                  <Link className="inline-block" onClick={handleSignOut}>
+                    <LogoutOutlined /> Sign Out
+                  </Link>
+                ),
+              },
+            ],
+          },
+          {
+            key: 6,
+            label: (
+              // BUG: Không hiện Icon khi collapse
+              <Link to="/cart">
+                <Badge count={99} overflowCount={10} offset={[4, 6]}>
+                  <span className="flex items-center justify-center">
+                    <ShoppingCartOutlined className="text-lg p-2" />
+                  </span>
+                </Badge>
+              </Link>
+            ),
+          },
+        ]
+      : [
+          {
+            key: 5,
+            label: (
+              <Link to="/auth/signin">
+                <LoginOutlined /> Sign In
+              </Link>
+            ),
+            title: 'Sign In',
+          },
+        ];
   };
 
   useEffect(() => {
@@ -86,17 +108,17 @@ const HeaderAntd = () => {
   return (
     <Header className="px-0 flex justify-center bg-white">
       <div className="mainSize flex items-center justify-between">
-        <div className="flex-1">
+        <div className="mr-12 sm:mr-20 xl:mr-0">
           <Link to="/" className="text-sm md:text-base font-bold">
             Shoes Cyber
           </Link>
         </div>
         <Menu
-          theme="light"
+          // theme="light"
           mode="horizontal"
           defaultSelectedKeys={['1']}
           className="justify-end flex-1 min-w-0"
-          items={[...MenuItems, renderMenuAuth()]}
+          items={[...MenuItems, ...renderMenuAuth()]}
         />
       </div>
     </Header>
