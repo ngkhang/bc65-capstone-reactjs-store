@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DefaultTemplate, AuthTemplate, UserTemplate } from '../template';
 import { Home, Products, DetailProduct, Auth, ErrorPage } from '../pages';
 import Profile from '../pages/Profile/Profile';
+import Cart from '../pages/Cart/Cart';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,15 @@ const router = createBrowserRouter([
           {
             path: ':productSlug/:productId',
             element: <DetailProduct />,
+          },
+        ],
+      },
+      {
+        path: 'cart',
+        children: [
+          {
+            index: true,
+            element: <Cart />,
           },
         ],
       },

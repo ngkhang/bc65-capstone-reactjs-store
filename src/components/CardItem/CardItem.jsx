@@ -1,17 +1,26 @@
 /* eslint-disable react/prop-types */
-import { Card, Col, ConfigProvider, Rate, Row } from 'antd';
-import NotFound from '../../assets/not-found.svg';
 import { Link } from 'react-router-dom';
+import { useRedux } from '../../hooks';
+import { addProductAction } from '../../redux/reducers/cartReducer';
+import { Card, Col, ConfigProvider, Rate, Row } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import NotFound from '../../assets/not-found.svg';
 
 const handleError = (e) => {
   e.target.src = NotFound;
 };
 
 const CardItem = ({ prod, typeDisplay = 'grid' }) => {
-  const handleAddtoCart = (idProduct) => {
-    // TODO: Handle add to cart
-    console.log(idProduct);
+  const { dispatch } = useRedux();
+
+  const handleAddtoCart = (prod) => {
+    const orderProd = {
+      productDetail: prod,
+      quantity: 1,
+    };
+
+    const action = addProductAction(orderProd);
+    dispatch(action);
   };
 
   let configRowCol = {
@@ -74,7 +83,7 @@ const CardItem = ({ prod, typeDisplay = 'grid' }) => {
             )}
             <button
               className="w-full py-1 lg:py-2 cursor-pointer uppercase font-bold hover:text-white border border-gray-600 bg-white hover:bg-gray-600"
-              onClick={() => handleAddtoCart(prod.id)}
+              onClick={() => handleAddtoCart(prod)}
               key="add"
             >
               <PlusOutlined /> add

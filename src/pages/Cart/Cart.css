@@ -1,0 +1,11 @@
+.detail-payment p {
+  @apply flex justify-between flex-wrap;
+}
+
+.detail-payment span:first-child {
+  @apply w-full md:w-fit mb-2 lg:mb-0;
+}
+
+.detail-payment span:last-child {
+  @apply w-full md:w-fit text-end;
+}

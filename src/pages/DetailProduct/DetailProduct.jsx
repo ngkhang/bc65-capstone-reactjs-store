@@ -25,6 +25,8 @@ import {
   ShareAltOutlined,
 } from '@ant-design/icons';
 import './DetailProduct.css';
+import { addProductAction } from '../../redux/reducers/cartReducer';
+import { useRedux } from '../../hooks';
 
 // FEATURE: Click relate product will scroll top page
 
@@ -36,6 +38,17 @@ const DetailProduct = () => {
     'productId',
   ]);
   const [product, setProduct] = useState({});
+  const { dispatch } = useRedux();
+
+  const handleAddtoCart = (prod) => {
+    const orderProd = {
+      productDetail: prod,
+      quantity: quantityProduct,
+    };
+
+    const action = addProductAction(orderProd);
+    dispatch(action);
+  };
 
   const handleChangeCountProduct = (e, key = '', max) => {
     let newQuantity = e.target.value * 1;
@@ -184,13 +197,13 @@ const DetailProduct = () => {
               </Flex>
 
               <Flex gap={10} className="row-detail mb-0">
-                <Button
-                  type="primary"
-                  size="large"
-                  className="w-full lg:w-0 lg:px-28"
+                <button
+                  className="flex justify-center items-center w-full sm:w-2/3 py-3 lg:py-4 cursor-pointer uppercase font-bold hover:text-white border border-gray-600 bg-white hover:bg-gray-600"
+                  onClick={() => handleAddtoCart(product)}
                 >
+                  <PlusOutlined />
                   Add to Cart
-                </Button>
+                </button>
               </Flex>
             </Col>
           </Row>

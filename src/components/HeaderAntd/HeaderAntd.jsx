@@ -40,6 +40,7 @@ const HeaderAntd = () => {
     REDUCERS.USER_REDUCER,
     GLOBAL_STATES.USER_PROFILE,
   );
+  const { carts } = useRedux(REDUCERS.CART_REDUCER, GLOBAL_STATES.CARTS);
   const handleSignOut = () => {
     const actionCreator = signOutAction();
     dispatch(actionCreator);
@@ -75,7 +76,7 @@ const HeaderAntd = () => {
             label: (
               // BUG: Không hiện Icon khi collapse
               <Link to="/cart">
-                <Badge count={99} overflowCount={10} offset={[4, 6]}>
+                <Badge count={carts.length} overflowCount={10} offset={[4, 6]}>
                   <span className="flex items-center justify-center">
                     <ShoppingCartOutlined className="text-lg p-2" />
                   </span>
