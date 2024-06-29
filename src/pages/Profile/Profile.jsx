@@ -2,7 +2,10 @@ import { useEffect } from 'react';
 import { GLOBAL_STATES, SERVICES } from '../../utils/constant';
 import { useRedux } from '../../hooks';
 import { getDataJsonStorage, getDataTextStorage } from '../../utils/helpers';
-import { profileActionAsync } from '../../redux/reducers/userReducer';
+import {
+  profileActionAsync,
+  updateActionAsync,
+} from '../../redux/reducers/userReducer';
 import {
   Avatar,
   Button,
@@ -89,24 +92,7 @@ const configFieldsSignUp = [
         },
       ],
     },
-    children: (
-      <Input
-        placeholder="Enter your phone"
-        // addonBefore={
-        //   <Form.Item name="prefix" noStyle>
-        //     <Select>
-        //       {['86', '87'].map((prefix, index) => {
-        //         return (
-        //           <Option key={index} value={prefix}>
-        //             +{prefix}
-        //           </Option>
-        //         );
-        //       })}
-        //     </Select>
-        //   </Form.Item>
-        // }
-      />
-    ),
+    children: <Input placeholder="Enter your phone" />,
   },
   {
     key: 6,
@@ -140,8 +126,15 @@ const Profile = () => {
   const accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
   const userProfile = getDataJsonStorage(GLOBAL_STATES.USER_PROFILE);
 
-  const onFinish = (newValues) => {
-    console.log(newValues);
+  const onFinish = async (values) => {
+    const actionThunk = updateActionAsync(values);
+
+    const { statusCode, content } = await dispatch(actionThunk);
+    if (statusCode === 200) {
+      console.log(content);
+      const actionThunk = profileActionAsync(accessToken);
+      dispatch(actionThunk);
+    } else console.log('Error: ', content);
   };
 
   useEffect(() => {

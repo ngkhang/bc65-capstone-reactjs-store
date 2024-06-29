@@ -27,7 +27,7 @@ const Items = [
       },
       {
         key: 'sub2',
-        label: 'Change password',
+        label: <Link to="/user/account/change-password">Change Password</Link>,
       },
     ],
   },

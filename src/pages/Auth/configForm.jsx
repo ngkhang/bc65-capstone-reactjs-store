@@ -1,4 +1,4 @@
-import { Form, Input, Select } from 'antd';
+import { Input, Select } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
@@ -129,24 +129,7 @@ const configFieldsSignUp = [
         },
       ],
     },
-    children: (
-      <Input
-        placeholder="Enter your phone"
-        // addonBefore={
-        //   <Form.Item name="prefix" noStyle>
-        //     <Select>
-        //       {['86', '87'].map((prefix, index) => {
-        //         return (
-        //           <Option key={index} value={prefix}>
-        //             +{prefix}
-        //           </Option>
-        //         );
-        //       })}
-        //     </Select>
-        //   </Form.Item>
-        // }
-      />
-    ),
+    children: <Input placeholder="Enter your phone" />,
   },
   {
     key: 6,

@@ -49,6 +49,18 @@ const API = {
      * @description Sends a POST request to get the user's order.
      */
     ORDER: `${USER_BASE}/order`,
+    /**
+     * Update the user's profile
+     *
+     * @description Sends a POST request to update the user's profile.
+     */
+    UPDATE_PROFILE: `${USER_BASE}/updateProfile`,
+    /**
+     * Update the user's password
+     *
+     * @description Sends a POST request to update the user's password.
+     */
+    CHANGE_PASSWORD: `${USER_BASE}/changePassword`,
   },
 };
 

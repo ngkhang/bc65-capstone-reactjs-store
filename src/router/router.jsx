@@ -9,6 +9,7 @@ import {
   Profile,
   Cart,
   OrdersHistory,
+  ChangePassword,
 } from '../pages';
 
 const router = createBrowserRouter([
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: 'account/profile',
         element: <Profile />,
+      },
+      {
+        path: 'account/change-password',
+        element: <ChangePassword />,
       },
       {
         path: 'account/orders',

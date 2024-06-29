@@ -96,4 +96,35 @@ export const signUpActionAsync = (values) => {
     }
   };
 };
+
+export const updateActionAsync = (values) => {
+  return async () => {
+    try {
+      const res = await httpClient.post(API.USER.UPDATE_PROFILE, values);
+      return {
+        ...res.data,
+      };
+    } catch (error) {
+      return {
+        ...error.response.data,
+      };
+    }
+  };
+};
+
+export const changePasswordActionAsync = (newPassword) => {
+  return async () => {
+    try {
+      const res = await httpClient.post(API.USER.CHANGE_PASSWORD, newPassword);
+      return {
+        ...res.data,
+      };
+    } catch (error) {
+      return {
+        ...error.response.data,
+      };
+    }
+  };
+};
+
 export default userReducer.reducer;

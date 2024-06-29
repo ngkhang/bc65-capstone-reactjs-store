@@ -5,6 +5,7 @@ import DetailProduct from './DetailProduct/DetailProduct';
 import Auth from './Auth/Auth';
 import Profile from './Profile/Profile';
 import OrdersHistory from './OrdersHistory/OrdersHistory';
+import ChangePassword from './ChangePassword/ChangePassword';
 import Cart from './Cart/Cart';
 
 export {
@@ -15,5 +16,6 @@ export {
   Profile,
   OrdersHistory,
   Cart,
+  ChangePassword,
   ErrorPage,
 };
