@@ -21,6 +21,7 @@ const CardItem = ({ prod, typeDisplay = 'grid' }) => {
 
     const action = addProductAction(orderProd);
     dispatch(action);
+    console.log('Thêm sản phẩm thành công. Vui lòng đăng nhập');
   };
 
   let configRowCol = {

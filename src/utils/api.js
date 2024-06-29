@@ -43,6 +43,12 @@ const API = {
      * @description Sends a POST request to get the user's profile.
      */
     PROFILE: `${USER_BASE}/getProfile`,
+    /**
+     * Send the user's order
+     *
+     * @description Sends a POST request to get the user's order.
+     */
+    ORDER: `${USER_BASE}/order`,
   },
 };
 

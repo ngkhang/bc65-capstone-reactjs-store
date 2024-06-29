@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import { getDataTextStorage } from '../../utils/helpers';
+import { getDataJsonStorage, getDataTextStorage } from '../../utils/helpers';
 import { GLOBAL_STATES, REDUCERS, SERVICES } from '../../utils/constant';
 import { useRedux, useRoute } from '../../hooks';
 import { Avatar, Button, Card, Divider, Flex, Input, Space, Table } from 'antd';
 import './Cart.css';
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  deleteProduct,
-  updateQtyProduct,
+  checkOutActionAsync,
+  deleteProductAction,
+  updateQtyProductAction,
 } from '../../redux/reducers/cartReducer';
-
-const SHIPPING_CODE = 10;
 
 const columns = [
   {
@@ -47,9 +46,11 @@ const getTotalPriceProduct = (orderList) => {
 
 const Cart = () => {
   const { navigate } = useRoute();
-  const accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
   const state = useRedux(REDUCERS.CART_REDUCER, GLOBAL_STATES.CARTS);
+  const accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
   const { dispatch } = useRedux();
+
+  const SHIPPING_CODE = state[GLOBAL_STATES.CARTS].length > 0 && 10;
 
   const data = state[GLOBAL_STATES.CARTS].map((prod) => {
     const { productDetail, quantity } = prod;
@@ -65,19 +66,37 @@ const Cart = () => {
 
   const subTotal = getTotalPriceProduct(state[GLOBAL_STATES.CARTS]);
   const handleDelete = (productId) => {
-    const action = deleteProduct(productId);
+    const action = deleteProductAction(productId);
     dispatch(action);
   };
 
-  const handleUpdateQtyProduct = (actionType, { quantity }) => {
-    console.log(actionType, quantity);
-    // const action = updateQtyProduct(actionType, count);
-    // dispatch(action);
+  const handleUpdateQtyProduct = (record, value) => {
+    const { key, quantity } = record;
+    if (quantity > 1 || value !== -1) {
+      const action = updateQtyProductAction({ key, value: quantity + value });
+      dispatch(action);
+    }
   };
 
-  const handleCheckOut = () => {
-    // TODO: Check out
+  const handleCheckOut = async () => {
+    let orderDetail = state[GLOBAL_STATES.CARTS].map(
+      ({ productDetail, quantity }) => {
+        return {
+          productId: productDetail.id,
+          quantity,
+        };
+      },
+    );
+    let { email } = getDataJsonStorage(GLOBAL_STATES.USER_PROFILE);
+    const actionThunk = checkOutActionAsync({ orderDetail, email });
+
+    const { statusCode, message } = await dispatch(actionThunk);
+    if (statusCode === 200) {
+      console.log(message);
+      navigate('/');
+    } else console.log('Error: ', message);
   };
+
   useEffect(() => {
     // BUG: accessToken khi expired
     if (!accessToken) navigate('/auth/signin');
@@ -89,7 +108,7 @@ const Cart = () => {
       <Divider />
 
       <Flex gap="12px">
-        <div className="w-[65%] bg-pink-400">
+        <div className="w-[65%]">
           <Table
             columns={[
               ...columns,
@@ -109,22 +128,21 @@ const Cart = () => {
                 title: 'Qty',
                 key: 'qty',
                 className: 'text-center',
-
                 render: (_, record) => (
                   // TODO: Handle Change QTy
                   <Space.Compact size="middle">
                     <Button
-                      onClick={() => handleUpdateQtyProduct('down', record)}
+                      onClick={() => handleUpdateQtyProduct(record, -1)}
                       icon={<MinusOutlined />}
                       className="rounded-s-md flex-grow "
                     />
                     <Input
                       className="text-center w-12"
                       value={record.quantity}
-                      onInput={() => handleUpdateQtyProduct('default', record)}
+                      disabled
                     />
                     <Button
-                      onClick={() => handleUpdateQtyProduct('up', record)}
+                      onClick={() => handleUpdateQtyProduct(record, 1)}
                       icon={<PlusOutlined />}
                       className="rounded-e-md flex-grow"
                     />
@@ -137,7 +155,7 @@ const Cart = () => {
         </div>
 
         <div className="w-[35%]">
-          <Card title="Order Summary" className="bg-pink-200">
+          <Card title="Order Summary">
             <div>
               <p>Promo Code</p>
               <Input placeholder="Enter promo code..." />
@@ -154,14 +172,13 @@ const Cart = () => {
               </p>
               <p>
                 <span>Shipping fee:</span>
-                <span>{subTotal && SHIPPING_CODE}</span>
+                <span>{SHIPPING_CODE}</span>
               </p>
             </div>
             <Divider />
             <div className="detail-payment">
               <p className="mb-7 uppercase font-bold text-xl">
                 <span>Total</span>
-                {/* BUG: Total + SHIPPING_CODE*/}
                 <span>{subTotal + SHIPPING_CODE}</span>
               </p>
             </div>
