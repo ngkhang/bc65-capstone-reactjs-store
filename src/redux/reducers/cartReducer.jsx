@@ -59,11 +59,9 @@ export const {
 export default cartReducer.reducer;
 
 export const checkOutActionAsync = (orders) => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const res = await httpClient.post(API.USER.ORDER, orders);
-      const actionCreator = checkoutAction();
-      dispatch(actionCreator);
       return {
         ...res.data,
       };

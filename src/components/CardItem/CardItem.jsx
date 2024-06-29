@@ -5,6 +5,8 @@ import { addProductAction } from '../../redux/reducers/cartReducer';
 import { Card, Col, ConfigProvider, Rate, Row } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import NotFound from '../../assets/not-found.svg';
+import { getDataTextStorage } from '../../utils/helpers';
+import { SERVICES } from '../../utils/constant';
 
 const handleError = (e) => {
   e.target.src = NotFound;
@@ -21,7 +23,9 @@ const CardItem = ({ prod, typeDisplay = 'grid' }) => {
 
     const action = addProductAction(orderProd);
     dispatch(action);
-    console.log('Thêm sản phẩm thành công. Vui lòng đăng nhập');
+    let accessToken = getDataTextStorage(SERVICES.ACCESS_TOKEN);
+    if (!accessToken)
+      console.log('Thêm sản phẩm thành công. Vui lòng đăng nhập');
   };
 
   let configRowCol = {

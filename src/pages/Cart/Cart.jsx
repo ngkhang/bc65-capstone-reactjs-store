@@ -7,6 +7,7 @@ import './Cart.css';
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   checkOutActionAsync,
+  checkoutAction,
   deleteProductAction,
   updateQtyProductAction,
 } from '../../redux/reducers/cartReducer';
@@ -87,12 +88,17 @@ const Cart = () => {
         };
       },
     );
-    let { email } = getDataJsonStorage(GLOBAL_STATES.USER_PROFILE);
-    const actionThunk = checkOutActionAsync({ orderDetail, email });
+    const data = {
+      orderDetail,
+      email: getDataJsonStorage(GLOBAL_STATES.USER_PROFILE).email,
+    };
+
+    const actionThunk = checkOutActionAsync(data);
 
     const { statusCode, message } = await dispatch(actionThunk);
     if (statusCode === 200) {
-      console.log(message);
+      const action = checkoutAction();
+      dispatch(action);
       navigate('/');
     } else console.log('Error: ', message);
   };

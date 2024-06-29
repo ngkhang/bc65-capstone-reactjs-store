@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Footer, Header } from '../../components';
 import { Button, Flex, Layout, Menu } from 'antd';
@@ -23,7 +23,7 @@ const Items = [
     children: [
       {
         key: 'sub1',
-        label: 'Profile',
+        label: <Link to="/user/account/profile">Profile</Link>,
       },
       {
         key: 'sub2',
@@ -34,7 +34,7 @@ const Items = [
   {
     key: '2',
     icon: <HistoryOutlined />,
-    label: 'My Purchase',
+    label: <Link to="/user/account/orders">My Purchase</Link>,
   },
   {
     key: '3',

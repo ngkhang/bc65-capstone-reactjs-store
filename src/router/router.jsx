@@ -1,8 +1,15 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DefaultTemplate, AuthTemplate, UserTemplate } from '../template';
-import { Home, Products, DetailProduct, Auth, ErrorPage } from '../pages';
-import Profile from '../pages/Profile/Profile';
-import Cart from '../pages/Cart/Cart';
+import {
+  Home,
+  Products,
+  DetailProduct,
+  Auth,
+  ErrorPage,
+  Profile,
+  Cart,
+  OrdersHistory,
+} from '../pages';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: 'account/profile',
         element: <Profile />,
+      },
+      {
+        path: 'account/orders',
+        element: <OrdersHistory />,
       },
     ],
   },
